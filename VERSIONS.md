@@ -11,7 +11,7 @@ Current versions of all skills. Agents can compare against local versions to che
 | aso | 2.0.1 | 2026-08-19 |
 | attribution | 1.1.0 | 2026-07-23 |
 | churn-prevention | 2.0.0 | 2026-05-05 |
-| client-audit-report | 1.1.0 | 2026-09-20 |
+| client-audit-report | 1.2.0 | 2026-09-20 |
 | co-marketing | 2.0.1 | 2026-08-23 |
 | cold-email | 2.0.0 | 2026-05-05 |
 | community-marketing | 2.0.1 | 2026-08-23 |
@@ -58,6 +58,10 @@ Current versions of all skills. Agents can compare against local versions to che
 | video | 2.1.0 | 2026-07-14 |
 
 ## Recent Changes
+
+### 2.12.2 (2026-09-20)
+
+- **client-audit-report** (1.1.0 → 1.2.0): dropped the Slides-based Growth Snapshot after real client feedback ("stupid," "pathetic" — too thin to explain anything). Now produces ONE document: internal technical section first, client pages last, divided by a clear banner and printable on their own via `@media print`. Client pages must now explain the actual cause-and-effect mechanism behind each finding (using the business's own real service words and city), not just translate it into a one-line stat. Adds a fuller translation table and a worked example (Corner Contracting) to `references/internal-report-example.md` documenting both the failure mode and the corrected style.
 
 ### 2.12.1 (2026-09-20)
 

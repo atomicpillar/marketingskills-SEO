@@ -50,3 +50,39 @@ are not acceptable; this level of detail is:
 Every finding traces to a specific tool run from Step 1. Build the same way:
 run the tools, report exactly what they returned, and be explicit about
 what wasn't captured.
+
+## What changed after run 1, and why (read this before writing client pages)
+
+Run 1 (GTA Fine Interiors) shipped the client-facing piece as a 2-slide deck
+with stat cards. The client's exact feedback: "This can't be the result...
+this is so stupid information... this deck is pathetic." The problem wasn't
+the findings, it was the format — a slide canvas has room for a number and
+one sentence, not an explanation. Two changes followed, both now baked into
+`SKILL.md`: no more slide deck, one long document with client pages at the
+end; and every client-facing finding has to explain the actual
+cause-and-effect mechanism, not just state the number.
+
+## Worked example of the explanatory style: Corner Contracting (run 2)
+
+The internal finding: homepage H1 is the single word "SOLUTION." — no
+service name, no location. The client-facing version doesn't just say "fix
+your heading" — it explains the mechanism, using the business's own real
+services and city:
+
+> Here's how it works: when someone types "deck builder Barrie" or
+> "interlock contractor near me" into Google, Google reads the words on
+> your website to decide whether to show you. It pays the closest attention
+> to two things: your page's title, and the biggest heading at the top of
+> your homepage. Right now, the biggest heading on your homepage doesn't
+> say "deck builder," "interlock," "landscaping," or "Barrie." It currently
+> reads, in full: "SOLUTION." Google has no way to connect that word to a
+> search for the work you actually do.
+
+Same pattern for every other client-facing finding in that run: missing
+meta descriptions explained as "the line under your link in search results
+that Google is currently writing for you at random instead of you writing
+it," missing trust signals (licensing, insurance, reviews) explained as
+"often the single biggest thing that turns a visitor into a phone call."
+Use real service words and the real city/region every time — generic advice
+reads as generic advice; specific mechanism plus their own words reads as
+an audit someone actually did.
