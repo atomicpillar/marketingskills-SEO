@@ -11,7 +11,7 @@ Current versions of all skills. Agents can compare against local versions to che
 | aso | 2.0.1 | 2026-08-19 |
 | attribution | 1.1.0 | 2026-07-23 |
 | churn-prevention | 2.0.0 | 2026-05-05 |
-| client-audit-report | 1.0.0 | 2026-09-20 |
+| client-audit-report | 1.1.0 | 2026-09-20 |
 | co-marketing | 2.0.1 | 2026-08-23 |
 | cold-email | 2.0.0 | 2026-05-05 |
 | community-marketing | 2.0.1 | 2026-08-23 |
@@ -58,6 +58,10 @@ Current versions of all skills. Agents can compare against local versions to che
 | video | 2.1.0 | 2026-07-14 |
 
 ## Recent Changes
+
+### 2.12.1 (2026-09-20)
+
+- **client-audit-report** (1.0.0 → 1.1.0): reworked around two required deliverables instead of one combined report — a detailed internal technical file for the agency, and a short, plain-language, on-brand client-facing "Growth Snapshot" deck (built as a Slides Artifact, downloads as .pptx/PDF) that's the actual leave-behind. Adds a jargon-to-plain-English translation table, a "no em dashes / no invented numbers / no generic AI-deck look" rule set for anything client-facing, and Atomic Pillar's brand reference (logo, palette, type, tagline) under `assets/`. Adds `references/internal-report-example.md` documenting the internal report's structure from the first production run (GTA Fine Interiors).
 
 ### 2.12.0 (2026-09-20)
 
