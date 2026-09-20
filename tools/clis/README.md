@@ -4,6 +4,8 @@ Zero-dependency, single-file CLI tools for marketing platforms that don't ship t
 
 Every CLI is a standalone Node.js script (Node 18+) with no `npm install` required — just `chmod +x` and go.
 
+Looking for browser-driven tooling (Core Web Vitals, rendered schema markup, screenshots, broken links)? Those need a real headless browser, so they live separately in [`tools/audit-tools/`](../audit-tools/) with their own `npm install`.
+
 ## Install
 
 ### Option 1: Run directly
@@ -54,6 +56,7 @@ Every CLI reads credentials from environment variables:
 | `g2` | `G2_API_TOKEN` |
 | `ga4` | `GA4_ACCESS_TOKEN` |
 | `google-ads` | `GOOGLE_ADS_TOKEN`, `GOOGLE_ADS_DEVELOPER_TOKEN`, `GOOGLE_ADS_CUSTOMER_ID` |
+| `google-places` | `GOOGLE_PLACES_API_KEY` |
 | `google-search-console` | `GSC_ACCESS_TOKEN` |
 | `hotjar` | `HOTJAR_CLIENT_ID`, `HOTJAR_CLIENT_SECRET` |
 | `intercom` | `INTERCOM_API_KEY` |
@@ -153,6 +156,7 @@ DOMAINS=$(rewardful affiliates list | jq -r '.data[].email')
 | `g2.js` | Reviews | [G2](https://g2.com) |
 | `ga4.js` | Analytics | [Google Analytics 4](https://analytics.google.com) |
 | `google-ads.js` | Ads | [Google Ads](https://ads.google.com) |
+| `google-places.js` | Local SEO / GBP | [Google Places API](https://developers.google.com/maps/documentation/places/web-service) |
 | `google-search-console.js` | SEO | [Google Search Console](https://search.google.com/search-console) |
 | `hotjar.js` | CRO | [Hotjar](https://hotjar.com) |
 | `hunter.js` | Email Outreach | [Hunter.io](https://hunter.io) |

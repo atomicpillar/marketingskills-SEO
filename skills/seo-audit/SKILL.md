@@ -2,7 +2,7 @@
 name: seo-audit
 description: When the user wants to audit, review, or diagnose SEO issues on their site. Also use when the user mentions "SEO audit," "technical SEO," "why am I not ranking," "SEO issues," "on-page SEO," "meta tags review," "SEO health check," "my traffic dropped," "lost rankings," "not showing up in Google," "site isn't ranking," "Google update hit me," "page speed," "core web vitals," "crawl errors," or "indexing issues." Use this even if the user just says something vague like "my SEO is bad" or "help with SEO" — start with an audit. For building pages at scale to target keywords, see programmatic-seo. For adding structured data, see schema. For AI search optimization, see ai-seo.
 metadata:
-  version: 2.0.1
+  version: 2.0.2
 ---
 
 # SEO Audit
@@ -44,9 +44,10 @@ Before auditing, understand:
 Many CMS plugins (AIOSEO, Yoast, RankMath) inject JSON-LD via client-side JavaScript — it won't appear in static HTML or `web_fetch` output (which strips `<script>` tags during conversion).
 
 **To accurately check for schema markup, use one of these methods:**
-1. **Browser tool** — render the page and run: `document.querySelectorAll('script[type="application/ld+json"]')`
-2. **Google Rich Results Test** — https://search.google.com/test/rich-results
-3. **Screaming Frog export** — if the client provides one, use it (SF renders JavaScript)
+1. **`node tools/audit-tools/schema-check.js --url <url>`** — renders the page with Playwright and extracts `script[type="application/ld+json"]` directly (one-time `npm install` in that directory; see its README)
+2. **Browser tool** — render the page and run: `document.querySelectorAll('script[type="application/ld+json"]')`
+3. **Google Rich Results Test** — https://search.google.com/test/rich-results
+4. **Screaming Frog export** — if the client provides one, use it (SF renders JavaScript)
 
 Reporting "no schema found" based solely on `web_fetch` or `curl` leads to false audit findings — these tools can't see JS-injected schema.
 
@@ -109,6 +110,11 @@ Reporting "no schema found" based solely on `web_fetch` or `curl` leads to false
 - Trailing slash consistency
 
 ### Site Speed & Core Web Vitals
+
+**No Search Console / PageSpeed Insights access?** Run
+`node tools/audit-tools/lighthouse-audit.js --url <url>` (and again with
+`--mobile`) for real LCP, CLS, TBT, and category scores without an API key —
+see `tools/audit-tools/README.md`.
 
 **Core Web Vitals**
 - LCP (Largest Contentful Paint): < 2.5s
@@ -462,14 +468,15 @@ Same format as above
 ## Tools Referenced
 
 **Free Tools**
-- Google Search Console (essential)
-- Google PageSpeed Insights
+- Google Search Console (essential, when you have access — for a prospect audit you usually won't)
+- Google PageSpeed Insights, or `tools/audit-tools/lighthouse-audit.js` when you can't authenticate to PSI
 - Bing Webmaster Tools
-- Rich Results Test (**use this for schema validation — it renders JavaScript**)
+- Rich Results Test (**use this for schema validation — it renders JavaScript**), or `tools/audit-tools/schema-check.js` for the same result without leaving the terminal
 - Mobile-Friendly Test
 - Schema Validator
+- `tools/audit-tools/broken-links.js` for a site-wide broken link crawl
 
-> **Note on schema detection:** `web_fetch` strips `<script>` tags (including JSON-LD) and cannot detect JS-injected schema. Use the browser tool, Rich Results Test, or Screaming Frog instead — they render JavaScript and capture dynamically-injected markup. See the Schema Markup Detection Limitation section above.
+> **Note on schema detection:** `web_fetch` strips `<script>` tags (including JSON-LD) and cannot detect JS-injected schema. Use `tools/audit-tools/schema-check.js`, the browser tool, Rich Results Test, or Screaming Frog instead — they render JavaScript and capture dynamically-injected markup. See the Schema Markup Detection Limitation section above.
 
 **Paid Tools** (if available)
 - Screaming Frog
@@ -497,3 +504,5 @@ Same format as above
 - **schema**: For implementing structured data
 - **cro**: For optimizing pages for conversion (not just ranking)
 - **analytics**: For measuring SEO performance
+- **local-seo**: For auditing Google Business Profile alongside the site
+- **client-audit-report**: Wraps this skill into a full client-facing sales report (site + GBP + design gap)

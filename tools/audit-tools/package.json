@@ -1,0 +1,15 @@
+{
+  "name": "marketingskills-audit-tools",
+  "private": true,
+  "description": "Local, open-source browser/crawl tooling for client-audit-report and seo-audit — Core Web Vitals, rendered schema markup, broken links, and site screenshots. Unlike tools/clis (zero-dependency API wrappers), these need one `npm install` because they drive a real browser.",
+  "type": "module",
+  "scripts": {
+    "postinstall": "playwright install chromium --with-deps || playwright install chromium"
+  },
+  "dependencies": {
+    "playwright": "^1.48.0",
+    "lighthouse": "^12.2.0",
+    "chrome-launcher": "^1.1.2",
+    "linkinator": "^6.1.0"
+  }
+}

@@ -11,6 +11,7 @@ Current versions of all skills. Agents can compare against local versions to che
 | aso | 2.0.1 | 2026-08-19 |
 | attribution | 1.1.0 | 2026-07-23 |
 | churn-prevention | 2.0.0 | 2026-05-05 |
+| client-audit-report | 1.0.0 | 2026-09-20 |
 | co-marketing | 2.0.1 | 2026-08-23 |
 | cold-email | 2.0.0 | 2026-05-05 |
 | community-marketing | 2.0.1 | 2026-08-23 |
@@ -29,6 +30,7 @@ Current versions of all skills. Agents can compare against local versions to che
 | influencer-marketing | 1.1.0 | 2026-08-19 |
 | launch | 2.0.2 | 2026-08-23 |
 | lead-magnets | 2.0.0 | 2026-05-05 |
+| local-seo | 1.0.0 | 2026-09-20 |
 | marketing-council | 1.0.0 | 2026-07-06 |
 | marketing-ideas | 2.0.1 | 2026-08-23 |
 | marketing-loops | 1.2.0 | 2026-07-10 |
@@ -48,7 +50,7 @@ Current versions of all skills. Agents can compare against local versions to che
 | revops | 2.0.0 | 2026-05-05 |
 | sales-enablement | 2.0.1 | 2026-06-16 |
 | schema | 2.0.0 | 2026-05-05 |
-| seo-audit | 2.0.1 | 2026-08-19 |
+| seo-audit | 2.0.2 | 2026-09-20 |
 | signup | 2.0.0 | 2026-05-05 |
 | site-architecture | 2.0.0 | 2026-05-05 |
 | sms | 1.0.0 | 2026-05-21 |
@@ -56,6 +58,15 @@ Current versions of all skills. Agents can compare against local versions to che
 | video | 2.1.0 | 2026-07-14 |
 
 ## Recent Changes
+
+### 2.12.0 (2026-09-20)
+
+- **New skill: local-seo** (1.0.0) — Google Business Profile / local search audits via the official Places API (New), never Maps/Search scraping. Scores reputation, review engagement, visual presence, completeness, and activity, and produces the "reputation vs. website" gap finding that `client-audit-report` builds on.
+- **New skill: client-audit-report** (1.0.0) — combines seo-audit, local-seo, Core Web Vitals, rendered schema, broken links, and a screenshot-based design/UX read into one client-facing sales report. Built for pre-engagement prospect audits: leads with what's already working (GBP reputation), builds the case for a website rebuild first and SEO as the upsell, and requires every claim to trace back to an actual tool run — no fabricated numbers.
+- **New tool: `tools/clis/google-places.js`** — zero-dependency CLI for the Places API (New): business search, full profile details (rating, reviews, photos, hours), and photo URLs.
+- **New tooling: `tools/audit-tools/`** — Lighthouse (real Core Web Vitals, no PSI key needed), Playwright-based rendered schema/JSON-LD detection, Playwright desktop+mobile screenshots, and Linkinator broken-link crawls. Needs one `npm install` (unlike the zero-dependency `tools/clis/`) since these drive a real browser. Closes the schema-detection and Core Web Vitals gaps `seo-audit` has flagged since 2.0.0.
+- **seo-audit** (2.0.1 → 2.0.2): points the Schema Markup Detection Limitation and Site Speed sections at the new local tooling instead of only third-party web tools; adds local-seo and client-audit-report to Related Skills.
+- **tools/REGISTRY.md**: adds a Local SEO / Google Business Profile category and an Open-Source Site Audit Tools section; extends the existing Google Maps scraping warning to point at the new official-API alternative.
 
 ### 2.11.1 (2026-09-04)
 

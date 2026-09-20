@@ -51,6 +51,7 @@ Anyone — including tool makers and partners — may contribute content that na
 | dataforseo | SEO | ✓ | - | [✓](clis/dataforseo.js) | ✓ | [dataforseo.md](integrations/dataforseo.md) |
 | keywords-everywhere | SEO | ✓ | - | [✓](clis/keywords-everywhere.js) | - | [keywords-everywhere.md](integrations/keywords-everywhere.md) |
 | rankparse | SEO | ✓ | ✓ | [✓](clis/rankparse.js) | - | [rankparse.md](integrations/rankparse.md) |
+| google-places | Local SEO / GBP | ✓ | - | [✓](clis/google-places.js) | - | [google-places.md](integrations/google-places.md) |
 | clearbit | Data Enrichment | ✓ | - | [✓](clis/clearbit.js) | ✓ | [clearbit.md](integrations/clearbit.md) |
 | apollo | Data Enrichment | ✓ | - | [✓](clis/apollo.js) | - | [apollo.md](integrations/apollo.md) |
 | zoominfo | Data Enrichment | ✓ | ✓ | [✓](clis/zoominfo.js) | - | [zoominfo.md](integrations/zoominfo.md) |
@@ -166,6 +167,28 @@ Search engine optimization tools for keyword research, rank tracking, and site a
 | **rankparse** | Cheap, agent-friendly backlinks + domain data | Credit-based, MCP available |
 
 **Agent recommendation**: Google Search Console is essential (free). Add Semrush or Ahrefs for competitive research. DataForSEO for programmatic SERP data. Keywords Everywhere for quick keyword lookups. RankParse for agent workflows where per-call cost matters — backlinks, domain authority, and tech stack at a fraction of enterprise pricing.
+
+For a client's site you don't have Search Console access to (a pre-engagement audit), see **Open-Source Site Audit Tools** below for real Core Web Vitals, rendered schema, and broken-link data without any API key.
+
+### Local SEO / Google Business Profile
+
+| Tool | Best For | Notes |
+|------|----------|-------|
+| **google-places** | Public GBP data on any business — rating, review count, review text, photos, hours | Official API, no owner permission needed |
+
+**Agent recommendation**: Use `google-places` (Places API New) to pull the objective, citable half of a Google Business Profile audit — rating, review volume, review quotes, photo count, category, hours. It cannot see Business Profile Insights (search views, calls, direction requests — owner-only) or review response rate / post frequency (no public API for these; note them from a one-off manual look at the public listing, never automated scraping). **Never scrape Google Maps or Google Search result pages** — see the Site Scraping warning below, which applies here too. See the `local-seo` skill for the full audit workflow.
+
+### Open-Source Site Audit Tools
+
+Local, no-API-key tooling in [`tools/audit-tools/`](audit-tools/) for the checks a hosted SEO API can't do — driven by real open-source projects (Lighthouse, Playwright, Linkinator), not custom scrapers.
+
+| Tool | Best For | Notes |
+|------|----------|-------|
+| **Lighthouse** ([GoogleChrome/lighthouse](https://github.com/GoogleChrome/lighthouse)) | Real Core Web Vitals + Performance/SEO/Accessibility/Best-Practices scores | No PageSpeed Insights API key needed; runs locally |
+| **Playwright** ([microsoft/playwright](https://github.com/microsoft/playwright)) | JS-rendered schema markup, desktop/mobile screenshots | Fixes the exact gap in `seo-audit`'s Schema Markup Detection Limitation |
+| **Linkinator** ([JustinBeckwith/linkinator](https://github.com/JustinBeckwith/linkinator)) | Site-wide broken link crawl | Recurses internal pages, checks outbound links too |
+
+**Agent recommendation**: Requires one `npm install` in `tools/audit-tools/` (see its README) — these drive a real browser, unlike the zero-dependency CLIs in `tools/clis/`. Run `lighthouse-audit.js` and `schema-check.js` on any site you're auditing regardless of whether you have Search Console access; both feed directly into `seo-audit` and `client-audit-report`.
 
 ### CRM
 
@@ -370,7 +393,7 @@ Programmatic page extraction for **individual public business sites** — not fo
 | **firecrawl** | Page → clean markdown / structured extraction | API + MCP; lower overhead for "just give me the content" |
 | **browserbase** | Real Chromium when rendering, interaction, or session state is required | API + MCP (Stagehand); use when Firecrawl can't handle the page |
 
-**Agent recommendation**: Default to Firecrawl for static-ish pages and structured extraction. Use Browserbase when the site requires JS rendering, form interaction, cookie consent, or auth — and when you want session recordings for debugging. **For both: discovery happens on platforms (manual browser); extraction happens on the prospect's own website URL.** Don't point either tool at LinkedIn, Google Maps, Yelp, or similar.
+**Agent recommendation**: Default to Firecrawl for static-ish pages and structured extraction. Use Browserbase when the site requires JS rendering, form interaction, cookie consent, or auth — and when you want session recordings for debugging. **For both: discovery happens on platforms (manual browser); extraction happens on the prospect's own website URL.** Don't point either tool at LinkedIn, Google Maps, Yelp, or similar — for Google Business Profile data specifically, use `google-places` (see **Local SEO / Google Business Profile** above), the official API built for exactly this.
 
 ### Reviews
 

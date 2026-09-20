@@ -76,6 +76,7 @@ See each skill's **Related Skills** section for the full dependency map.
 | [aso](skills/aso/) | When the user wants to audit or optimize an App Store or Google Play listing. Also use when the user mentions 'ASO... |
 | [attribution](skills/attribution/) | When the user wants to figure out which marketing actually drives conversions and revenue, choose or interpret an... |
 | [churn-prevention](skills/churn-prevention/) | When the user wants to reduce churn, build cancellation flows, set up save offers, recover failed payments, or... |
+| [client-audit-report](skills/client-audit-report/) | When the user wants a full audit report on a prospective client's website to use as a sales tool — pitching a website... |
 | [co-marketing](skills/co-marketing/) | When the user wants to find co-marketing partners, plan joint campaigns, or brainstorm partnership opportunities. Use... |
 | [cold-email](skills/cold-email/) | Write B2B cold emails and follow-up sequences that get replies. Use when the user wants to write cold outreach emails,... |
 | [community-marketing](skills/community-marketing/) | Build and leverage online communities to drive product growth and brand loyalty. Use when the user wants to create a... |
@@ -94,6 +95,7 @@ See each skill's **Related Skills** section for the full dependency map.
 | [influencer-marketing](skills/influencer-marketing/) | When the user wants to run influencer, creator, or ambassador partnerships to promote their product — finding and... |
 | [launch](skills/launch/) | When the user wants to plan a product launch, feature announcement, or release strategy. Also use when the user... |
 | [lead-magnets](skills/lead-magnets/) | When the user wants to create, plan, or optimize a lead magnet for email capture or lead generation. Also use when the... |
+| [local-seo](skills/local-seo/) | When the user wants to audit a business's Google Business Profile (GBP), Google Maps listing, or local search presence... |
 | [marketing-council](skills/marketing-council/) | When the user wants multiple expert perspectives on a marketing question — a simulated board of advisors staffed by... |
 | [marketing-ideas](skills/marketing-ideas/) | When the user needs marketing ideas, inspiration, or strategies for their SaaS or software product. Also use when the... |
 | [marketing-loops](skills/marketing-loops/) | When the user wants to set up a recurring, self-running marketing workflow — a repeatable loop an AI agent runs on a... |
@@ -297,6 +299,7 @@ You can also invoke skills directly:
 
 ### SEO & Discovery
 - `seo-audit` - Technical and on-page SEO
+- `local-seo` - Google Business Profile / local search audits
 - `ai-seo` - AI search optimization (AEO, GEO, LLMO)
 - `programmatic-seo` - Scaled page generation
 - `site-architecture` - Page hierarchy, navigation, URL structure
@@ -330,6 +333,9 @@ You can also invoke skills directly:
 ### Sales & RevOps
 - `revops` - Lead lifecycle, scoring, routing, pipeline management
 - `sales-enablement` - Sales decks, one-pagers, objection docs, demo scripts
+
+### Agency & Client Reporting
+- `client-audit-report` - Full website + local SEO audit report for prospective clients, built to sell a website rebuild and SEO engagement
 
 ## Contributing
 
