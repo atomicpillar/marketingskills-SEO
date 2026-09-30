@@ -11,7 +11,7 @@ Current versions of all skills. Agents can compare against local versions to che
 | aso | 2.0.1 | 2026-08-19 |
 | attribution | 1.1.0 | 2026-07-23 |
 | churn-prevention | 2.0.0 | 2026-05-05 |
-| client-audit-report | 1.5.0 | 2026-09-30 |
+| client-audit-report | 1.6.0 | 2026-09-30 |
 | co-marketing | 2.0.1 | 2026-08-23 |
 | cold-email | 2.0.0 | 2026-05-05 |
 | community-marketing | 2.0.1 | 2026-08-23 |
@@ -58,6 +58,10 @@ Current versions of all skills. Agents can compare against local versions to che
 | video | 2.1.0 | 2026-07-14 |
 
 ## Recent Changes
+
+### 2.12.6 (2026-09-30)
+
+- **client-audit-report** (1.5.0 → 1.6.0): sixth round on the same run — the charts landed well internally, but the client-facing pages were still text/bullets only. The score panel, bar charts, and KPI tiles are now required on the client pages too (they're self-contained components, so they drop into a white client page unmodified), not just the internal section. Client page 1 now leads with the score ring + urgency, page 2 is almost entirely charts (keyword funnel, AI visibility, traffic engagement) with minimal caption text, and strengths/plan/CTA move to page 3. Relaxes the client-page budget from a hard 2 pages to 2-3, driven by what the visuals need rather than an arbitrary cap.
 
 ### 2.12.5 (2026-09-30)
 
