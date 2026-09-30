@@ -11,7 +11,7 @@ Current versions of all skills. Agents can compare against local versions to che
 | aso | 2.0.1 | 2026-08-19 |
 | attribution | 1.1.0 | 2026-07-23 |
 | churn-prevention | 2.0.0 | 2026-05-05 |
-| client-audit-report | 1.4.0 | 2026-09-30 |
+| client-audit-report | 1.5.0 | 2026-09-30 |
 | co-marketing | 2.0.1 | 2026-08-23 |
 | cold-email | 2.0.0 | 2026-05-05 |
 | community-marketing | 2.0.1 | 2026-08-23 |
@@ -58,6 +58,10 @@ Current versions of all skills. Agents can compare against local versions to che
 | video | 2.1.0 | 2026-07-14 |
 
 ## Recent Changes
+
+### 2.12.5 (2026-09-30)
+
+- **client-audit-report** (1.4.0 → 1.5.0): fifth round on the Star Closet run — "more graphs, tables, numbers... put the SEO score at the top... make it look high-end and modern, not childish." The internal section now opens with a hero score panel (a real Authority Score as a ring gauge, plus KPI tiles with real deltas) directly after the masthead, before any prose. Adds real charts built from third-party SEO tool data the user provided (Semrush screenshots): a keyword-position funnel (Top 3/10/20/100 vs. not-ranking), an AI search visibility bar chart per engine, a keyword table with inline visibility bars, and traffic-engagement KPIs. Requires loading the `dataviz` skill before building any chart — uses its validated default categorical palette for multi-series charts (kept distinct from the report's brand chrome) and its fixed status palette for trend/severity coloring. Documents that third-party dashboard data (Semrush, Ahrefs, SEOptimer, etc.) handed over as a screenshot or link should be extracted exactly and cited with tool + date, never estimated into a fabricated trend.
 
 ### 2.12.4 (2026-09-30)
 

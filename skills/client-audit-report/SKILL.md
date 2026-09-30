@@ -2,7 +2,7 @@
 name: client-audit-report
 description: When the user wants a full audit report or SEO strategy on a prospective client's website to use as a sales tool — pitching a website rebuild and/or an SEO retainer. Use when the user gives a client/prospect website URL and asks for "a full audit," "an audit report," "a free report for a client," "an SEO and website report," "build me an SEO strategy," or wants to show a prospect "why they need a new site," "why they need SEO," or "why they don't rank." Combines technical/on-page SEO (seo-audit), Google Business Profile reputation and full optimization plan (local-seo), Google Search Console findings, Core Web Vitals, and a visual/design gap analysis across the business's FULL claimed service area (not just one city) into ONE document: a detailed internal technical section for the agency, followed by plain-language, on-brand client pages plus an evidence appendix, ready to hand to the business owner as-is. Not for auditing your own site for internal use — for that, use seo-audit directly.
 metadata:
-  version: 1.4.0
+  version: 1.5.0
 ---
 
 # Client Audit Report
@@ -152,7 +152,16 @@ does. Build a single long-form HTML page (`artifact-design` fundamentals,
 plain page, not the Slides type) structured as:
 
 1. **Masthead** — logo (full two-line wordmark lockup, see `assets/atomic-pillar-brand.md`), client name/domain, audit date, and a **Prepared for / Prepared by** block (client contact + company — agency contact using the standard contact in `assets/atomic-pillar-brand.md` unless told otherwise).
-2. **Internal section** (top of the document, most of its length) — a
+2. **A hero score panel, immediately after the masthead, before anything else.**
+   A real, named metric front and center (an Authority Score, an SEO health
+   grade, whatever real number the evidence supports) as a score ring or
+   badge, plus 4-6 KPI tiles with real deltas (traffic, keywords, backlinks,
+   referring domains — whatever third-party SEO data is available). This is
+   what makes the report's stakes legible in 3 seconds instead of requiring
+   the reader to get through a paragraph first. See "Data Visualization"
+   below for how to build this — real charts, not text, is now the default
+   for the data-heavy parts of the internal section.
+3. **Internal section** (top of the document, most of its length) — a
    scorecard (letter grades per area read better than a single number when
    some components couldn't be measured), Executive Summary, Where They're
    Invisible (the real target searches tested, with real competitor data),
@@ -169,9 +178,9 @@ plain page, not the Slides type) structured as:
    this part never leaves the agency. See
    `references/internal-report-example.md` for structure and the level of
    specificity expected.
-3. **A clear visual divider** marking where client copy begins (a distinct
+4. **A clear visual divider** marking where client copy begins (a distinct
    banner, e.g. "Client copy starts below").
-4. **The client pages** (the last 2 sections of the same document by
+5. **The client pages** (the last 2 sections of the same document by
    default) — see Step 5. Style them visibly differently from the internal
    section (a bordered card is enough) so it's obvious at a glance where the
    internal part ends — **white/cream background, not a dark panel**; a full
@@ -179,7 +188,7 @@ plain page, not the Slides type) structured as:
    default (see `assets/atomic-pillar-brand.md`). Give this section
    `@media print { page-break-before: always }` so it prints/exports cleanly
    on its own if the agency only wants to hand over those pages.
-5. **Appendix** (after the client pages, still part of the same document) —
+6. **Appendix** (after the client pages, still part of the same document) —
    supporting evidence that doesn't count against the "2 pages" budget:
    real search-result screenshots (from `WebSearch`, a user-provided
    capture, or images extracted from an uploaded reference PDF via
@@ -191,6 +200,25 @@ plain page, not the Slides type) structured as:
 If the client would genuinely benefit from seeing the whole document
 (technical section included), that's fine to send as-is — the point of the
 split is optionality, not secrecy.
+
+### Data Visualization
+
+**Load the `dataviz` skill before writing any chart.** A report that's just
+statements and paragraphs reads as thin, even when the writing is good — the
+data-heavy sections (rankings, traffic, backlinks, AI search visibility)
+need real charts: a score ring for the headline metric, KPI tiles with
+delta arrows, horizontal bar comparisons (e.g. keyword position
+distribution), a table with an inline visibility bar per row. Build these as
+plain HTML/CSS/inline-SVG per the skill's component guidance — no charting
+library needed for this level of complexity. Use the skill's validated
+default categorical palette (references/palette.md) for any multi-series
+chart (e.g. one bar per AI engine), kept visually distinct from the report's
+gold/ink brand chrome, and the skill's fixed status palette (good / warning
+/ serious / critical) for trend and severity coloring. Every number plotted
+must be real — if the user hands you a third-party SEO tool's dashboard
+(Semrush, Ahrefs, SEOptimer, etc., as a screenshot or a link), extract the
+exact figures shown and cite the tool + capture date; don't invent a trend
+line or data point you can't actually read off what you were given.
 
 **Rules for the internal section:**
 - **Every number is real.** Lighthouse scores, review counts, broken link
