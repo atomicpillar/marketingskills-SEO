@@ -11,7 +11,7 @@ Current versions of all skills. Agents can compare against local versions to che
 | aso | 2.0.1 | 2026-08-19 |
 | attribution | 1.1.0 | 2026-07-23 |
 | churn-prevention | 2.0.0 | 2026-05-05 |
-| client-audit-report | 1.2.0 | 2026-09-20 |
+| client-audit-report | 1.3.0 | 2026-09-30 |
 | co-marketing | 2.0.1 | 2026-08-23 |
 | cold-email | 2.0.0 | 2026-05-05 |
 | community-marketing | 2.0.1 | 2026-08-23 |
@@ -58,6 +58,10 @@ Current versions of all skills. Agents can compare against local versions to che
 | video | 2.1.0 | 2026-07-14 |
 
 ## Recent Changes
+
+### 2.12.3 (2026-09-30)
+
+- **client-audit-report** (1.2.0 → 1.3.0): third real client run, three real corrections. (1) Client-facing pages default to white/cream background, not a dark ink panel — a real client called the dark version "cartoonish." (2) Geographic scope now covers a business's full claimed service area by default (e.g. all of the GTA), not just the single city the user happened to ask about, while still prioritizing their home base. (3) SEO is now sold as an ongoing retainer, never a one-time deliverable — `assets/atomic-pillar-brand.md`'s tagline changed accordingly. Also adds required Google Search Console and full Google Business Profile optimization sections (not just a gap note), an explicit "why a full rebuild" trigger (a genuinely dated site, not just under-optimized), a scorecard-with-letter-grades format, an evidence appendix pattern (real search screenshots — via `WebSearch`, user-provided captures, or images extracted from an uploaded reference PDF with `pdfimages`), and softens the "no em dash" rule to "don't overuse it as a crutch" after the agency's own reference material used one in a headline without complaint.
 
 ### 2.12.2 (2026-09-20)
 

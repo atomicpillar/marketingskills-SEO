@@ -1,8 +1,8 @@
 ---
 name: client-audit-report
-description: When the user wants a full audit report on a prospective client's website to use as a sales tool — pitching a website rebuild and/or SEO engagement. Use when the user gives a client/prospect website URL and asks for "a full audit," "an audit report," "a free report for a client," "an SEO and website report," or wants to show a prospect "why they need a new site" or "why they need SEO." Combines technical/on-page SEO (seo-audit), Google Business Profile reputation (local-seo), Core Web Vitals, and a visual/design gap analysis into ONE document: a detailed internal technical section for the agency, followed by plain-language, on-brand client pages that explain each finding's real cause and effect (not just a number) and are ready to hand to the business owner as-is. Not for auditing your own site for internal use — for that, use seo-audit directly.
+description: When the user wants a full audit report or SEO strategy on a prospective client's website to use as a sales tool — pitching a website rebuild and/or an SEO retainer. Use when the user gives a client/prospect website URL and asks for "a full audit," "an audit report," "a free report for a client," "an SEO and website report," "build me an SEO strategy," or wants to show a prospect "why they need a new site," "why they need SEO," or "why they don't rank." Combines technical/on-page SEO (seo-audit), Google Business Profile reputation and full optimization plan (local-seo), Google Search Console findings, Core Web Vitals, and a visual/design gap analysis across the business's FULL claimed service area (not just one city) into ONE document: a detailed internal technical section for the agency, followed by plain-language, on-brand client pages plus an evidence appendix, ready to hand to the business owner as-is. Not for auditing your own site for internal use — for that, use seo-audit directly.
 metadata:
-  version: 1.2.0
+  version: 1.3.0
 ---
 
 # Client Audit Report
@@ -20,18 +20,27 @@ to something an actual tool run or API call produced in this session.
 
 ## Why rebuild-first, SEO-second
 
-Say this explicitly: a technically solid, fast, well-structured new site is
-the foundation SEO work compounds on. Optimizing content and links on a
+Recommend a full rebuild (not just SEO fixes on the existing site) whenever
+the site itself is genuinely dated: generic template-era design, no modern
+trust signals, content that doesn't show off the actual work. Say the
+sequencing explicitly: a technically solid, fast, well-structured new site
+is the foundation SEO work compounds on. Optimizing content and links on a
 slow, thin, poorly-structured old site wastes the SEO spend — most of it
-will need redoing once the site changes anyway. This is the honest reason
-for the sequencing, not just an upsell script.
+will need redoing once the site changes anyway, and there's often nowhere
+good for new SEO content to live (no service pages, no location pages) until
+the site is rebuilt. This is the honest reason for the sequencing, not just
+an upsell script. Then pair it with an ongoing SEO retainer, not a one-time
+SEO deliverable — see `assets/atomic-pillar-brand.md` on why SEO specifically
+needs to be sold as continuous work.
 
 ## Inputs Needed
 
 1. **Client website URL** (required)
 2. **Business name + city/state** (for the Google Business Profile lookup — ask if not given, or infer from the site's footer/contact page)
-3. Optional: competitor URL(s) for a comparison section
-4. Optional: `.agents/product-marketing.md` describing the agency's own service offering/pricing — use it to frame the recommendation if present, otherwise keep pricing/timelines out entirely rather than inventing them
+3. **Full service area, not just one city.** If the user names a single city ("check their Scarborough SEO"), still check whether the business's own site or listings claim a wider area (a common pattern: "we proudly serve the Greater Toronto Area including X, Y, Z"). Test search visibility across the *whole* claimed area, not just the one city asked about — home base gets priority/emphasis, but the strategy and findings should cover everywhere they say they serve.
+4. Optional: competitor URL(s) for a comparison section
+5. Optional: a prior report, screenshot set, or research the user has already done (their own or a colleague's) — use it as both a content source (real findings, real competitor data) and a style reference (match its structure/tone if the user points to it as the model). See "If the user hands you a reference document" in `assets/atomic-pillar-brand.md`.
+6. Optional: `.agents/product-marketing.md` describing the agency's own service offering/pricing — use it to frame the recommendation if present, otherwise keep pricing/timelines out entirely rather than inventing them
 
 ## Step 1 — Gather Evidence
 
@@ -72,12 +81,38 @@ Desktop + mobile full-page screenshots. Use these in the Growth Snapshot deck wh
 node tools/clis/google-places.js search --query "<business>, <city> <state>"
 node tools/clis/google-places.js details --place-id <id>
 ```
+If the user directly hands you a review count, a GBP link, or other profile
+details (common when they've already looked it up themselves), use those
+figures directly and cite them as user-provided — don't discard real data
+just because you couldn't independently re-fetch it. A `share.google` or
+similar shortened Maps link needs JavaScript to resolve and generally can't
+be read by `curl`/`WebFetch` in this environment; note that plainly rather
+than guessing at what the profile contains beyond what you were told.
+
+**Search visibility** (does the business actually show up?): use `WebSearch`
+for the real target queries (service + each area served), and cite who
+*does* rank with real details (rating, review count) from the results —
+this is legitimate (it's Claude's own search tool, not a scrape) and is
+often the most persuasive evidence in the whole report. Never fetch Google's
+raw search-result HTML directly (via curl/WebFetch/a headless browser) —
+that's scraping and violates Google's ToS; `WebSearch` is the sanctioned
+path to the same information. If the user has already captured their own
+Google search screenshots (e.g. in an uploaded PDF), reuse those directly in
+the appendix instead of re-doing the search yourself.
+
+**Google Search Console**: near-never available this early (needs the
+client's own access), but always include a dedicated findings/plan section
+on it anyway — indexing coverage, sitemap submission, mobile usability, and
+Core Web Vitals-from-real-visitors are all things worth naming as
+Phase 1 work once access is granted. Don't skip this section just because
+you can't run it yet.
 
 If `tools/audit-tools/` dependencies aren't installed yet, run `npm install`
 in that directory first (one-time, see its README). If a tool can't reach
 the network in this environment, say so plainly in the internal report and
-fall back to what does work (raw HTML fetch via curl/WebFetch, linkinator)
-rather than skipping the audit — see the fallback pattern from earlier runs.
+fall back to what does work (raw HTML fetch via curl/WebFetch, linkinator,
+a Wayback Machine snapshot via `archive.org/wayback/available?url=`) rather
+than skipping the audit — see the fallback pattern from earlier runs.
 
 ## Step 2 — Score Each Area
 
@@ -117,21 +152,41 @@ does. Build a single long-form HTML page (`artifact-design` fundamentals,
 plain page, not the Slides type) structured as:
 
 1. **Masthead** — logo, client name/domain, audit date.
-2. **Internal section** (top of the document, most of its length) —
-   Executive Summary, What's Already Working, What's Costing Them (with real
-   numbers and evidence), full SEO Findings table (Issue / Impact / Evidence
-   / Priority), What Couldn't Be Checked This Pass. Technical language is
-   fine here — this part never leaves the agency. See
+2. **Internal section** (top of the document, most of its length) — a
+   scorecard (letter grades per area read better than a single number when
+   some components couldn't be measured), Executive Summary, Where They're
+   Invisible (the real target searches tested, with real competitor data),
+   How Google Decides (Relevance/Proximity/Prominence, or similar, applied
+   to this business), What's Already Working, Website Findings table (Issue
+   / Impact / Evidence / Priority), a dedicated **Google Search Console**
+   findings/plan section, a dedicated **full Google Business Profile
+   optimization plan** (not just a gap note — category accuracy, complete
+   services list, service area set to everywhere they claim to serve, NAP
+   consistency, photos/posts cadence, review response), Why a Rebuild (when
+   the site itself is dated, not just under-optimized — see "Why
+   rebuild-first, SEO-second" above), and
+   What Couldn't Be Checked This Pass. Technical language is fine here —
+   this part never leaves the agency. See
    `references/internal-report-example.md` for structure and the level of
    specificity expected.
 3. **A clear visual divider** marking where client copy begins (a distinct
    banner, e.g. "Client copy starts below").
 4. **The client pages** (the last 2 sections of the same document by
-   default) — see Step 5. Style them visibly differently (e.g. the dark
-   brand panel) so it's obvious at a glance where the internal part ends.
-   Give this section `@media print { page-break-before: always }` so it
-   prints/exports cleanly on its own if the agency only wants to hand over
-   those pages.
+   default) — see Step 5. Style them visibly differently from the internal
+   section (a bordered card is enough) so it's obvious at a glance where the
+   internal part ends — **white/cream background, not a dark panel**; a full
+   dark-ink page read as "cartoonish" to a real client and is no longer the
+   default (see `assets/atomic-pillar-brand.md`). Give this section
+   `@media print { page-break-before: always }` so it prints/exports cleanly
+   on its own if the agency only wants to hand over those pages.
+5. **Appendix** (after the client pages, still part of the same document) —
+   supporting evidence that doesn't count against the "2 pages" budget:
+   real search-result screenshots (from `WebSearch`, a user-provided
+   capture, or images extracted from an uploaded reference PDF via
+   `pdfimages`), each captioned with what it shows and that the business
+   wasn't found. This is what makes the client pages' claims verifiable
+   rather than just asserted, and reads as real technical work, not just a
+   sales pitch.
 
 If the client would genuinely benefit from seeing the whole document
 (technical section included), that's fine to send as-is — the point of the
@@ -188,10 +243,15 @@ builder Barrie," not just that "your heading needs work").
 | No visible reviews, licensing, insurance, or other trust signals | Name the specific missing signal, then: this is usually the deciding factor between a visitor and a phone call, especially for [their industry] |
 | Services not individually structured/headed | Explain that grouping services under generic headings dilutes how strongly the page can match a search for any one specific service |
 | GBP review count / rating / photos | Use directly — these numbers are already client-friendly (stars, review count, photo count) |
+| Weak/inconsistent Google Business Profile setup | Name it plainly as the profile Google shows right in the map results — explain that a strong review count with a poorly set-up profile is proof sitting unused |
+| No Search Console access / unconfirmed indexing | "We can't yet see exactly how Google is crawling your site — that's priority one once we're in" |
+| Business only tested/serving one city vs. their full claimed area | Report every area they say they serve, not just the one asked about — home base first, then the rest, so the client sees the full scope of the problem and the plan |
 
 ### Writing rules (non-negotiable — these came directly from client feedback)
 
-1. **No em dashes, anywhere.** Use a period, a comma, or a new sentence.
+1. **Don't overuse em dashes as a crutch** — reaching for one in nearly every
+   sentence reads as AI-written; a period, comma, or new sentence is usually
+   the better default (see `assets/atomic-pillar-brand.md`).
 2. **No raw jargon** (no "H1," "schema," "TTFB," "meta description" left
    unexplained) — but DO explain the underlying mechanism in plain words;
    don't just cut the finding for being technical.
@@ -204,13 +264,15 @@ builder Barrie," not just that "your heading needs work").
 ### Design rules
 
 Read `assets/atomic-pillar-brand.md` first — colors, fonts, logo, tagline,
-and the full design rationale are there. In short: use the logo at
-`assets/atomic-pillar-logo.png`, the ink/paper/gold palette, Sora + Manrope
-typefaces, and explicitly avoid the generic-AI-deck look (no
-cream-serif-terracotta, no Inter/Space Grotesk, no centered walls of text).
-Upload the logo once per document as an artifact asset (needs
-`capabilities: {"assets": {}}` declared on a plain HTML page — see
-`artifact-capabilities`) and reference the returned `/_blob/<id>` url.
+and the full design rationale are there. In short: white/cream background
+by default (not a dark ink panel — that read as "cartoonish" to a real
+client), gold as the one sparing accent, black used for table headers and
+small CTA bands, Sora + Manrope typefaces, and explicitly avoid the
+generic-AI-deck look (no cream-serif-terracotta, no Inter/Space Grotesk, no
+centered walls of text). Upload the logo (and any appendix screenshots) once
+per document as artifact assets (needs `capabilities: {"assets": {}}`
+declared on a plain HTML page — see `artifact-capabilities`) and reference
+each returned `/_blob/<id>` url.
 
 If a different agency/brand is running this skill on their own fork, they
 should replace `assets/atomic-pillar-logo.png` and
