@@ -1,11 +1,13 @@
-# Atomic Pillar — Brand Reference
+# Atomic Pillar Agency — Brand Reference
 
 Used by `client-audit-report` to build the client-facing deck. Internal
 technical report doesn't need this — plain and functional is correct there.
 
+- **Full name: "Atomic Pillar Agency."** Not just "Atomic Pillar" — always use the full name somewhere identifying (masthead, footer, prepared-by line), even if a short wordmark lockup only fits "ATOMIC PILLAR" visually.
 - **Logo**: `atomic-pillar-logo.png` (this folder) — two overlapping "P" marks, gold over black, on white/transparent. Use at small sizes (36-56px) next to the wordmark, never stretched.
-- **Wordmark**: ATOMIC PILLAR — set in caps, letter-spaced, next to the logo mark.
+- **Wordmark lockup**: two lines next to the logo mark — "ATOMIC PILLAR" (bold caps, letter-spaced) with "AGENCY" beneath it (smaller, muted, letter-spaced). Match the reference logo file exactly; don't drop the "AGENCY" line.
 - **Website**: atomicpillaragency.com
+- **Standard "prepared by" contact**: Amanda Alphonso, Atomic Pillar Agency, (416) 845-6143, amanda@atomicpillar.com. Use this as the default contact block (Prepared for: client name/company/address — Prepared by: the line above — Date) unless the user gives a different name for a given report.
 - **Positioning**: Toronto AI-first agency. Custom-built systems, not templates. Websites are framed as "autonomous lead machines" — AI chat, lead capture, booking, SEO-ready architecture — not just static brochures.
 - **Services sold together**: a one-time website build/rebuild, PLUS an ongoing monthly SEO retainer. SEO is never a one-time deliverable — rankings need continuous work (content, citations, GBP activity, reporting), so every report's closing CTA should reflect a retainer for the SEO side, even if the website build itself is a one-time project. Do not use "no retainers" language for SEO work.
 - **Tagline to reuse in a report's closing CTA**: something like "One-time website build, plus an ongoing SEO retainer — because rankings take real, continuous work to earn and keep." Adapt the wording, keep the substance: build once, retain for SEO.
@@ -33,9 +35,10 @@ for good/warn/bad findings) visually distinct from the gold accent.
 
 ## Type
 
-- Display: **Sora** (Google Fonts) — bold, geometric, modern. Weight 700-800 for headlines.
+- Display: **Sora** (Google Fonts) — geometric, modern. **Weight 600-700, not 800; keep headline sizes restrained (around 1.5-1.75rem for a client-page H1, not 2rem+).** A big, heavy, multi-color headline read as "childish" and "too AI" to a real client — Sora at large weights/sizes tips into a rounded, friendly-app look that undercuts a high-end, professional read. Smaller, more confident, more restrained is the correct default.
 - Body: **Manrope** (Google Fonts) — clean, readable at small sizes.
 - Never Inter, never Space Grotesk — both read as generic "AI tool" defaults.
+- **Don't color individual words mid-headline** (a gold span on one word inside a sentence) — it reads as a marketing-blog trick, not a professional document. Keep gold for eyebrows, labels, numbers, and UI chrome; let headline text be one consistent color.
 
 ## Writing rules for anything client-facing
 
@@ -56,9 +59,27 @@ and apply to every future one:
    traffic/revenue figures — never invent a dollar estimate.
 4. **Design like a real agency deck, not a generic AI template.** Avoid the
    cliché AI look entirely: no warm-cream-plus-serif-plus-terracotta, no
-   Inter/Space Grotesk, no centered-everything, no emoji section markers. Use
-   the palette and type above, real photography/screenshots where available,
-   and bold, confident layout choices.
+   Inter/Space Grotesk, no centered-everything, no emoji section markers, no
+   oversized playful headlines with mid-sentence color changes (see Type
+   above). Use the palette and type above, real photography/screenshots
+   where available, and bold, confident layout choices that still read as
+   restrained and high-end, not loud.
+5. **Pointers and short, well-defined sections over dense paragraphs.**
+   A business owner should be able to scan the page, not read an essay. Keep
+   the cause-and-effect explanation from the translation table in `SKILL.md`
+   (don't lose the substance that made run 2's report land), but format it
+   as short bulleted findings with a bold lead-in phrase, or 2-3 sentence
+   blocks under a clear subheading — not a wall of flowing prose. One idea
+   per bullet or block.
+6. **Name the urgency and the payoff, both grounded in real evidence.**
+   Every report should include: (a) why waiting costs them specifically —
+   named competitors already running ads or ranking on the exact searches
+   they're missing, a reputation asset that needs active use, seasonal
+   demand, whatever is actually true for this business — and (b) a short,
+   concrete "what this gets you" outcomes section (more calls, a site that
+   matches the reputation, a stronger competitive position). Urgency must
+   come from real, cited findings already in the report — never manufactured
+   scarcity or a countdown-timer trick.
 
 ## If the user hands you a reference document
 

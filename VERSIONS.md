@@ -11,7 +11,7 @@ Current versions of all skills. Agents can compare against local versions to che
 | aso | 2.0.1 | 2026-08-19 |
 | attribution | 1.1.0 | 2026-07-23 |
 | churn-prevention | 2.0.0 | 2026-05-05 |
-| client-audit-report | 1.3.0 | 2026-09-30 |
+| client-audit-report | 1.4.0 | 2026-09-30 |
 | co-marketing | 2.0.1 | 2026-08-23 |
 | cold-email | 2.0.0 | 2026-05-05 |
 | community-marketing | 2.0.1 | 2026-08-23 |
@@ -58,6 +58,10 @@ Current versions of all skills. Agents can compare against local versions to che
 | video | 2.1.0 | 2026-07-14 |
 
 ## Recent Changes
+
+### 2.12.4 (2026-09-30)
+
+- **client-audit-report** (1.3.0 → 1.4.0): fourth round of real client feedback on the same Star Closet run. (1) Corrected the agency's full legal name to "Atomic Pillar Agency" everywhere (not just "Atomic Pillar"), and fixed the wordmark to the real two-line lockup (ATOMIC PILLAR / AGENCY). (2) Added a standard Prepared-for/Prepared-by contact block (client contact — agency contact, defaulting to Amanda Alphonso's details, now saved in `assets/atomic-pillar-brand.md`). (3) Toned down client-page headlines — smaller, lower-weight, no mid-sentence gold color spans — after "childish," "too big," and "too AI" feedback on the previous draft. (4) Converted client-page body copy from flowing paragraphs to short bulleted/pointer sections with bold lead-ins, while keeping the cause-and-effect explanatory depth. (5) Added required grounded-urgency and "what this gets you" outcomes sections. (6) Documented the standalone-PDF workflow (trim to client pages + appendix, swap artifact `/_blob/` image refs for local file paths, render with a local Playwright `file://` + `page.pdf()` call — works even when live-site browsing is sandbox-blocked, since it never touches the network) for when the user wants a downloadable file to send directly.
 
 ### 2.12.3 (2026-09-30)
 

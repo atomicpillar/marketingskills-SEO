@@ -2,7 +2,7 @@
 name: client-audit-report
 description: When the user wants a full audit report or SEO strategy on a prospective client's website to use as a sales tool — pitching a website rebuild and/or an SEO retainer. Use when the user gives a client/prospect website URL and asks for "a full audit," "an audit report," "a free report for a client," "an SEO and website report," "build me an SEO strategy," or wants to show a prospect "why they need a new site," "why they need SEO," or "why they don't rank." Combines technical/on-page SEO (seo-audit), Google Business Profile reputation and full optimization plan (local-seo), Google Search Console findings, Core Web Vitals, and a visual/design gap analysis across the business's FULL claimed service area (not just one city) into ONE document: a detailed internal technical section for the agency, followed by plain-language, on-brand client pages plus an evidence appendix, ready to hand to the business owner as-is. Not for auditing your own site for internal use — for that, use seo-audit directly.
 metadata:
-  version: 1.3.0
+  version: 1.4.0
 ---
 
 # Client Audit Report
@@ -151,7 +151,7 @@ too thin — slide canvases don't have room for real explanation. A document
 does. Build a single long-form HTML page (`artifact-design` fundamentals,
 plain page, not the Slides type) structured as:
 
-1. **Masthead** — logo, client name/domain, audit date.
+1. **Masthead** — logo (full two-line wordmark lockup, see `assets/atomic-pillar-brand.md`), client name/domain, audit date, and a **Prepared for / Prepared by** block (client contact + company — agency contact using the standard contact in `assets/atomic-pillar-brand.md` unless told otherwise).
 2. **Internal section** (top of the document, most of its length) — a
    scorecard (letter grades per area read better than a single number when
    some components couldn't be measured), Executive Summary, Where They're
@@ -204,24 +204,28 @@ split is optionality, not secrecy.
 
 ## Step 5 — Write the Client Pages (the last 2 sections of the document)
 
-This is the part that actually gets handed to the business owner. It is
-**explanatory, not compressed** — full paragraphs that walk through *why*
-each finding matters, using cause and effect, not a stat card with a number
-and a one-liner. The first production run used stat cards and the client
-called it "stupid" and "pathetic" — too thin to actually teach the business
-owner anything. Do not repeat that mistake. Default to 2 pages, but let the
-real content set the length — 2 thin pages is worse than 2 full ones.
+This is the part that actually gets handed to the business owner. Two
+findings from two real runs, both true at once: it must be **explanatory,
+not compressed** (stat cards with a number and a one-liner got called
+"stupid" and "pathetic" — too thin to teach a business owner anything), AND
+it must be **scannable, not a wall of prose** (dense flowing paragraphs got
+called "childish" in tone and hard to skim). The resolution: keep the full
+cause-and-effect explanation, but format it as short, well-defined sections
+and bulleted findings with a bold lead-in, not paragraph after paragraph.
+One idea per bullet or short block. Default to 2 pages, but let the real
+content set the length — 2 thin pages is worse than 2 full ones.
 
-### Explain the mechanism, not just the finding
+### Explain the mechanism, not just the finding — as a scannable pointer, not a paragraph
 
-For every SEO finding that reaches the client, walk them through the actual
+For every SEO finding that reaches the client, give them the actual
 cause-and-effect chain, using their own real service words and location —
-not abstract advice. The pattern:
+not abstract advice, and not a dense paragraph. The pattern, as a bolded
+lead-in plus one or two short follow-on sentences:
 
-> Here's how it actually works: when someone searches "[a real service the
-> business offers] [their real city]," Google reads [the specific broken
-> thing] to decide whether to show your site. Right now [the specific
-> problem, quoted or cited exactly]. That means [the concrete consequence —
+> **[A real service they offer] in [their real city]:** Google reads [the
+> specific broken thing] to decide whether to show your site. Right now
+> [the specific problem, quoted or cited exactly]. That means [the concrete
+> consequence —
 > a competitor outranking them, a snippet Google writes for them instead of
 > their own pitch, a visitor who can't tell if they're safe to hire].
 
@@ -257,9 +261,17 @@ builder Barrie," not just that "your heading needs work").
    don't just cut the finding for being technical.
 3. **No invented numbers** — qualitative business-impact language, or real
    measured numbers, never a guessed dollar figure.
-4. **Substantial, not compressed.** Full paragraphs. A business owner should
-   finish these pages actually understanding why each problem exists, not
-   just that it does.
+4. **Substantial, but scannable — pointers and short sections, not dense
+   paragraphs.** A business owner should finish these pages actually
+   understanding why each problem exists AND be able to skim them in under a
+   minute. Bulleted findings with a bold lead-in, short 2-3 sentence blocks
+   under clear subheadings — not walls of prose.
+5. **Include a grounded urgency section and a "what this gets you" outcomes
+   section** — see `assets/atomic-pillar-brand.md` for what "grounded"
+   means here (real cited findings, never manufactured scarcity).
+6. **Keep headlines restrained, not oversized or playful** — see the Type
+   guidance in `assets/atomic-pillar-brand.md`. A huge, heavy, multi-color
+   headline reads as amateur, not high-end.
 
 ### Design rules
 
@@ -294,6 +306,28 @@ Tell the user, when you hand it over, that the last N pages are what's
 meant to leave the agency, and that sending the whole document is fine too
 if the client can handle the technical detail. Don't build a slide deck for
 this — see Step 4.
+
+**If the user asks for a standalone, downloadable file of just the client
+pages** (to email or hand to the client directly): build a second, trimmed
+HTML file containing only the client-page divs and the appendix (same CSS,
+copy the images to local paths instead of `/_blob/<id>` artifact URLs, since
+those only resolve inside the Artifact viewer), then render it to PDF with
+Playwright locally:
+```js
+const browser = await chromium.launch({ headless: true })
+const page = await browser.newPage()
+await page.goto('file://' + htmlPath, { waitUntil: 'networkidle' })
+await page.pdf({ path: outPath, format: 'Letter', printBackground: true, scale: 0.82, margin: {...} })
+```
+This works even when live-site browsing is blocked in this sandbox (the
+TLS/bot-protection issues from earlier runs) — it's a local file, not a
+network fetch. Run the script from inside `tools/audit-tools/` so
+`playwright` resolves. Add print-specific CSS so each appendix screenshot
+stays on one page (`page-break-inside: avoid`, and cap image height, e.g.
+`max-height: 430px; object-fit: contain` — a full-resolution screenshot
+left unconstrained will split across pages or leave an awkward gap) and each
+client-page section starts its own page. Send the result with
+`SendUserFile`.
 
 ## Related Skills
 
