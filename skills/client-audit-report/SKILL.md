@@ -2,7 +2,7 @@
 name: client-audit-report
 description: When the user wants a full audit report or SEO strategy on a prospective client's website to use as a sales tool — pitching a website rebuild and/or an SEO retainer. Use when the user gives a client/prospect website URL and asks for "a full audit," "an audit report," "a free report for a client," "an SEO and website report," "build me an SEO strategy," or wants to show a prospect "why they need a new site," "why they need SEO," or "why they don't rank." Combines technical/on-page SEO (seo-audit), Google Business Profile reputation and full optimization plan (local-seo), Google Search Console findings, Core Web Vitals, and a visual/design gap analysis across the business's FULL claimed service area (not just one city) into ONE document: a detailed internal technical section for the agency, followed by plain-language, on-brand client pages plus an evidence appendix, ready to hand to the business owner as-is. Not for auditing your own site for internal use — for that, use seo-audit directly.
 metadata:
-  version: 1.6.0
+  version: 1.6.1
 ---
 
 # Client Audit Report
@@ -358,22 +358,58 @@ pages** (to email or hand to the client directly): build a second, trimmed
 HTML file containing only the client-page divs and the appendix (same CSS,
 copy the images to local paths instead of `/_blob/<id>` artifact URLs, since
 those only resolve inside the Artifact viewer), then render it to PDF with
-Playwright locally:
+Playwright locally. **Don't use a fixed page format like `Letter`** — a
+client page with a hero score panel, several charts, and a CTA band is
+routinely taller than one Letter page at any readable scale, and
+`page-break-inside: avoid` cannot honor itself when content genuinely
+doesn't fit: the browser is forced to break mid-element anyway, which is
+exactly what slices a CTA box or a bar-chart list across two pages. Instead,
+size the PDF page to the content itself, so no page-break ever has to
+choose where to cut:
 ```js
 const browser = await chromium.launch({ headless: true })
-const page = await browser.newPage()
+const page = await browser.newPage({ viewport: { width: 1040, height: 1200 } })
 await page.goto('file://' + htmlPath, { waitUntil: 'networkidle' })
-await page.pdf({ path: outPath, format: 'Letter', printBackground: true, scale: 0.82, margin: {...} })
+
+// Measure under print media — this is also the media page.pdf() renders
+// with, and must be set before both the measurement and the pdf() call.
+await page.emulateMedia({ media: 'print' })
+
+const maxHeight = await page.evaluate(() => {
+  let max = 0
+  document.querySelectorAll('.client-page, .appendix-shot')
+    .forEach(el => { max = Math.max(max, el.getBoundingClientRect().height) })
+  return Math.ceil(max)
+})
+
+await page.pdf({
+  path: outPath,
+  width: '1000px',
+  height: `${maxHeight + 120}px`, // headroom for top/bottom margins
+  printBackground: true,
+  margin: { top: '24px', bottom: '24px', left: '20px', right: '20px' },
+})
 ```
-This works even when live-site browsing is blocked in this sandbox (the
-TLS/bot-protection issues from earlier runs) — it's a local file, not a
-network fetch. Run the script from inside `tools/audit-tools/` so
-`playwright` resolves. Add print-specific CSS so each appendix screenshot
-stays on one page (`page-break-inside: avoid`, and cap image height, e.g.
-`max-height: 430px; object-fit: contain` — a full-resolution screenshot
-left unconstrained will split across pages or leave an awkward gap) and each
-client-page section starts its own page. Send the result with
-`SendUserFile`.
+Keep CSS `page-break-before: always` on `.client-page` and on every
+`.appendix-shot` after the first (so each gets its own page) plus
+`page-break-inside: avoid` on each as a safety net, and cap appendix image
+height (`max-height: 430px; object-fit: contain`) so a full-resolution
+screenshot doesn't dominate the page. **Never call
+`page.emulateMedia({ media: 'screen' })` before `page.pdf()`** — that
+silently disables every `@media print` rule (including the page-break rules
+above), which is what caused pages to run together with no break at all in
+an earlier version of this workflow. A uniform page height means shorter
+sections (most appendix pages) end with blank space at the bottom — that's
+the correct tradeoff; it costs nothing but paper, whereas a cut card costs
+the client's trust in the document. This works even when live-site browsing
+is blocked in this sandbox (the TLS/bot-protection issues from earlier
+runs) — it's a local file, not a network fetch. Run the script from inside
+`tools/audit-tools/` so `playwright` resolves. **Verify before sending**:
+render each PDF page to a PNG (`pdftoppm -png -r 100 file.pdf out/page`,
+poppler-utils) and read every page image, checking specifically that no
+card/box is cut at a page edge — confirming a page merely "has content" is
+not enough; the whole point is to catch a slice a quick glance would miss.
+Send the result with `SendUserFile`.
 
 ## Related Skills
 

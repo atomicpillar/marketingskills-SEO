@@ -11,7 +11,7 @@ Current versions of all skills. Agents can compare against local versions to che
 | aso | 2.0.1 | 2026-08-19 |
 | attribution | 1.1.0 | 2026-07-23 |
 | churn-prevention | 2.0.0 | 2026-05-05 |
-| client-audit-report | 1.6.0 | 2026-09-30 |
+| client-audit-report | 1.6.1 | 2026-09-30 |
 | co-marketing | 2.0.1 | 2026-08-23 |
 | cold-email | 2.0.0 | 2026-05-05 |
 | community-marketing | 2.0.1 | 2026-08-23 |
@@ -58,6 +58,10 @@ Current versions of all skills. Agents can compare against local versions to che
 | video | 2.1.0 | 2026-07-14 |
 
 ## Recent Changes
+
+### 2.12.7 (2026-09-30)
+
+- **client-audit-report** (1.6.0 → 1.6.1): fixed the standalone client-copy PDF still cutting content mid-card at page boundaries (a CTA box and a bar-chart list each sliced across two pages, even with `page-break-inside: avoid` set) after real client feedback with screenshots. Two real causes, both now documented and fixed in the export workflow: (1) a fixed `format: 'Letter'` page can't honor `page-break-inside: avoid` when a client page's actual content (hero score, several charts, a CTA band) is taller than one Letter page at any readable scale — the browser is forced to break mid-element regardless. Fixed by sizing the PDF page height to the tallest section's measured content height instead of a fixed format, so no break ever has to choose where to cut. (2) `page.emulateMedia({ media: 'screen' })`, called before `page.pdf()` in the previous version of this workflow, silently disables every `@media print` rule — including the page-break rules meant to separate sections — which is what let content run together with no break at all. Also adds a mandatory verification step: render the output PDF's pages to PNGs (`pdftoppm`) and read every one, checking specifically for a card sliced at a page edge, not just that content exists.
 
 ### 2.12.6 (2026-09-30)
 
