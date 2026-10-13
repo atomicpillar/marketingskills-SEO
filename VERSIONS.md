@@ -11,7 +11,7 @@ Current versions of all skills. Agents can compare against local versions to che
 | aso | 2.0.1 | 2026-08-19 |
 | attribution | 1.1.0 | 2026-07-23 |
 | churn-prevention | 2.0.0 | 2026-05-05 |
-| client-audit-report | 1.6.1 | 2026-09-30 |
+| client-audit-report | 1.6.2 | 2026-10-13 |
 | co-marketing | 2.0.1 | 2026-08-23 |
 | cold-email | 2.0.0 | 2026-05-05 |
 | community-marketing | 2.0.1 | 2026-08-23 |
@@ -30,7 +30,7 @@ Current versions of all skills. Agents can compare against local versions to che
 | influencer-marketing | 1.1.0 | 2026-08-19 |
 | launch | 2.0.2 | 2026-08-23 |
 | lead-magnets | 2.0.0 | 2026-05-05 |
-| local-seo | 1.0.0 | 2026-09-20 |
+| local-seo | 1.1.0 | 2026-10-13 |
 | marketing-council | 1.0.0 | 2026-07-06 |
 | marketing-ideas | 2.0.1 | 2026-08-23 |
 | marketing-loops | 1.2.0 | 2026-07-10 |
@@ -49,8 +49,8 @@ Current versions of all skills. Agents can compare against local versions to che
 | referrals | 2.0.1 | 2026-08-23 |
 | revops | 2.0.0 | 2026-05-05 |
 | sales-enablement | 2.0.1 | 2026-06-16 |
-| schema | 2.0.0 | 2026-05-05 |
-| seo-audit | 2.0.2 | 2026-09-20 |
+| schema | 2.1.0 | 2026-10-13 |
+| seo-audit | 2.1.0 | 2026-10-13 |
 | signup | 2.0.0 | 2026-05-05 |
 | site-architecture | 2.0.0 | 2026-05-05 |
 | sms | 1.0.0 | 2026-05-21 |
@@ -58,6 +58,14 @@ Current versions of all skills. Agents can compare against local versions to che
 | video | 2.1.0 | 2026-07-14 |
 
 ## Recent Changes
+
+### 2.12.8 (2026-10-13)
+
+- **schema** (2.0.0 → 2.1.0): corrected `FAQPage` and `HowTo` from presented-as-fully-valid to flagged no-rich-result types — Google retired FAQ rich results for all sites on 2026-05-07 and removed HowTo rich results in September 2023; both were still listed without that caveat. Added a deprecated-types list (`SpecialAnnouncement`, `ClaimReview`, `CourseInfo`/`EstimatedSalary`/`LearningVideo`, `VehicleListing`, `EnergyConsumptionDetails`), a "Local Business Subtypes" section (use `Restaurant`/`LegalService`/`AutoDealer`/`Dentist`/etc. instead of bare `LocalBusiness` — a recurring, verifiable finding), the `branchOf` multi-location pattern, and a rule against marking up a business's own self-sourced reviews (Google ignores it). Added matching examples to `references/schema-examples.md`.
+- **seo-audit** (2.0.2 → 2.1.0): added an AI crawler access table (training vs. citation/search access use different bot names — `GPTBot` ≠ `OAI-SearchBot`, `ClaudeBot` ≠ `Claude-SearchBot`, etc. — don't conflate them when reporting), Googlebot's practical crawl limits (~2MB HTML / ~64MB PDF), a lazy-load image detection order that doesn't false-flag WordPress sites running Perfmatters/EWWW optimization plugins, mobile/desktop content parity as the single highest-value mobile check, WCAG 2.2 touch-target sizes, the back-button-hijacking spam policy (enforced 2026-06-15), and a note to prefer schema/canonical/noindex in server-rendered HTML over JS-injected. New detail lives in `references/technical-crawl-signals.md`; `SKILL.md` carries short pointers. Also references the three new zero-dependency audit tools below.
+- **local-seo** (1.0.0 → 1.1.0): added a new "Step 6 — On-Site Local SEO Checklist" (NAP consistency across HTML/schema/GBP, dedicated service pages, the "swap test" for doorway location pages, local on-page signals, local schema, local link/authority signals) — a different axis from the existing GBP-listing audit (Steps 1-5), checking whether the *website* is built to earn local rankings. Added fake-review red-flag heuristics (uniform timing, thin reviewer history, geo mismatch, unexplained velocity spikes, near-identical text) and a note against review-gating (a banned dark pattern).
+- **client-audit-report** (1.6.1 → 1.6.2): Step 1 now points to the two new zero-dependency tools (`page-fields.js`, `sitemap-check.js`) for the technical/on-page gathering step, replacing the ad hoc curl/grep one-liners that step previously described in prose only.
+- Added three new zero-dependency tools to `tools/audit-tools/` (no `npm install` needed, unlike the Playwright-based tools already there): `page-fields.js` (on-page field extractor — title, meta, OG tags, canonical, hreflang, headings with suspicious-heading detection, images with lazy-load-method detection, links, static JSON-LD schema with `@graph` flattening, word count), `sitemap-check.js` (sitemap discovery via robots.txt + common fallback paths, with per-candidate validation), and `metadata-check.js` (detects templated/bulk-generated title+description pairs, with a site-wide risk rollup across multiple pages). Adapted from the open-source `claude-seo` project's Python logic, reimplemented dependency-free in Node.
 
 ### 2.12.7 (2026-09-30)
 

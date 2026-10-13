@@ -162,7 +162,11 @@ For SaaS product pages and app landing pages.
 
 ## FAQPage
 
-For pages with frequently asked questions.
+For pages with frequently asked questions. **Google retired FAQ rich
+results for all sites on 2026-05-07** — this markup no longer earns a SERP
+snippet on Google (non-Google AI crawlers may still use it). Still valid
+markup, just don't promise a rich result from it. For genuine user-submitted
+Q&A content, `QAPage` is the more accurate type.
 
 ```json
 {
@@ -193,7 +197,10 @@ For pages with frequently asked questions.
 
 ## HowTo
 
-For instructional content and tutorials.
+For instructional content and tutorials. **Rich results for this type were
+removed in September 2023** — don't add this markup expecting a SERP
+benefit on new content; it's listed here for reference only (editing
+existing implementations, understanding legacy markup on a client's site).
 
 ```json
 {
@@ -293,6 +300,45 @@ For local business location pages.
     }
   ],
   "priceRange": "$$"
+}
+```
+
+### Industry subtypes (use instead of bare LocalBusiness)
+
+Swap `@type` for the closest match — same shape as above otherwise. A few
+worked examples:
+
+```json
+{ "@type": "Restaurant", "name": "Example Bistro", "servesCuisine": "Italian", "menu": "https://example.com/menu" }
+```
+```json
+{ "@type": "LegalService", "name": "Example Law Group", "areaServed": "Toronto, ON" }
+```
+```json
+{ "@type": "AutoDealer", "name": "Example Motors", "brand": { "@type": "Brand", "name": "Toyota" } }
+```
+```json
+{ "@type": "Dentist", "name": "Example Dental", "medicalSpecialty": "Dentistry" }
+```
+
+See the schema skill's "Local Business Subtypes" table for the full
+business-to-type mapping, and never mark up a business's own reviews —
+`aggregateRating`/`Review` schema only counts when it reflects genuine
+third-party reviews actually visible on the page.
+
+### Multi-location (branchOf)
+
+Each location gets its own unique `@id` and links back to the parent
+`Organization`:
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "@id": "https://example.com/locations/downtown/#business",
+  "name": "Example Co — Downtown",
+  "branchOf": { "@id": "https://example.com/#organization" },
+  "address": { "@type": "PostalAddress", "streetAddress": "100 Main St", "addressLocality": "Toronto", "addressRegion": "ON", "addressCountry": "CA" }
 }
 ```
 

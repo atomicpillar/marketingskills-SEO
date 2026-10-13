@@ -2,7 +2,7 @@
 name: seo-audit
 description: When the user wants to audit, review, or diagnose SEO issues on their site. Also use when the user mentions "SEO audit," "technical SEO," "why am I not ranking," "SEO issues," "on-page SEO," "meta tags review," "SEO health check," "my traffic dropped," "lost rankings," "not showing up in Google," "site isn't ranking," "Google update hit me," "page speed," "core web vitals," "crawl errors," or "indexing issues." Use this even if the user just says something vague like "my SEO is bad" or "help with SEO" — start with an audit. For building pages at scale to target keywords, see programmatic-seo. For adding structured data, see schema. For AI search optimization, see ai-seo.
 metadata:
-  version: 2.0.2
+  version: 2.1.0
 ---
 
 # SEO Audit
@@ -51,6 +51,16 @@ Many CMS plugins (AIOSEO, Yoast, RankMath) inject JSON-LD via client-side JavaSc
 
 Reporting "no schema found" based solely on `web_fetch` or `curl` leads to false audit findings — these tools can't see JS-injected schema.
 
+**Prefer schema (and canonical, and noindex) in the server-rendered HTML,
+not JS-injected** — see [Technical Crawl Signals](references/technical-crawl-signals.md#js-rendered-signals-prefer-server-html-over-js-injected) for why this is a real risk factor, not just a detection inconvenience.
+
+**Check whether FAQPage/HowTo schema is pulling its weight.** FAQ rich
+results were retired for all sites 2026-05-07, and HowTo rich results were
+removed in September 2023 — finding either on a client's site isn't a bug,
+but don't recommend *adding* them expecting a SERP benefit. See the
+`schema` skill's deprecated-types list before recommending any schema
+addition.
+
 ### Priority Order
 1. **Crawlability & Indexation** (can Google find and index it?)
 2. **Technical Foundations** (is the site fast and functional?)
@@ -68,6 +78,8 @@ Reporting "no schema found" based solely on `web_fetch` or `curl` leads to false
 - Check for unintentional blocks
 - Verify important pages allowed
 - Check sitemap reference
+- **Also check what AI crawlers are allowed/blocked** — see [AI Crawler Access](references/technical-crawl-signals.md#ai-crawler-access) (training vs. citation access use different bot names; don't conflate them). `node tools/audit-tools/sitemap-check.js --url <url>` pulls declared `Sitemap:` lines plus validates each candidate sitemap in one shot.
+- Googlebot's practical crawl limits (~2MB HTML / ~64MB PDF) — see the reference above if a huge page is in play.
 
 **XML Sitemap**
 - Exists and accessible
@@ -138,12 +150,23 @@ see `tools/audit-tools/README.md`.
 
 ### Mobile-Friendliness
 
+**The single highest-value check here is mobile/desktop parity** — with
+mobile-first indexing, Google uses the *mobile* version of a page as what it
+indexes and ranks. Confirm the mobile version has the same titles, meta
+robots directives, structured data, and main content as desktop — a site
+that trims content, drops schema, or adds a stealth `noindex` on mobile only
+is invisibly sabotaging itself, and this is common enough (hidden
+accordions/tabs that never render content server-side, mobile templates
+maintained separately from desktop) to check explicitly rather than assume.
+
 - Responsive design (not separate m. site)
-- Tap target sizes
+- Tap target sizes: **24×24px minimum** (WCAG 2.2 AA), 48×48px comfortable — small, closely-spaced buttons/links are a common mobile-audit finding worth citing with the actual spec number
 - Viewport configured
 - No horizontal scroll
-- Same content as desktop
+- Same content as desktop (see parity note above — the actual highest-priority item in this list)
 - Mobile-first indexing readiness
+- Key content not hidden behind tabs/accordions that only populate client-side (check the server-rendered HTML, not just what's visible after JS runs)
+- No intrusive interstitials or excessive ad density blocking content on load
 
 ### Security & HTTPS
 
@@ -152,6 +175,8 @@ see `tools/audit-tools/README.md`.
 - No mixed content
 - HTTP → HTTPS redirects
 - HSTS header (bonus)
+- CSP, X-Frame-Options, X-Content-Type-Options, Referrer-Policy headers (bonus — security hygiene, not a ranking factor directly, but worth a line item)
+- **Back-button hijacking** (spam-policy violation since 2026-06-15) — see [Back-Button Hijacking](references/technical-crawl-signals.md#back-button-hijacking) for what to check and why it's a serious finding, not a minor one
 
 ### URL Structure
 
@@ -306,10 +331,10 @@ Three equivalent placement methods: HTML `<link>` in `<head>`, HTTP `Link` heade
 - Descriptive file names
 - Alt text on all images
 - Alt text describes image
-- Compressed file sizes
-- Modern formats (WebP)
-- Lazy loading implemented
-- Responsive images
+- Compressed file sizes — flag >200KB as a warning, >500KB as critical
+- Modern formats (WebP, AVIF)
+- Lazy loading implemented — **don't false-flag WordPress sites running an optimization plugin** (Perfmatters, EWWW) as "not lazy-loaded"; see [Lazy-Load Image Detection](references/technical-crawl-signals.md#lazy-load-image-detection-dont-false-flag-wordpress-optimization-plugins) for the detection order. `tools/audit-tools/page-fields.js` runs this automatically.
+- Responsive images (width/height set on the `<img>` tag — this also prevents layout shift, see CLS below)
 
 ### Internal Linking
 
@@ -461,6 +486,7 @@ Same format as above
 
 - [AI Writing Detection](references/ai-writing-detection.md): Common AI writing patterns to avoid (em dashes, overused phrases, filler words)
 - [International SEO](references/international-seo.md): Evidence and sources for hreflang, canonical + i18n, sitemaps, URL structure, and content quality across locales
+- [Technical Crawl Signals](references/technical-crawl-signals.md): AI crawler access table, Googlebot's practical crawl limits, lazy-load image detection order, back-button hijacking, and JS-rendered canonical/noindex/schema risk
 - For AI search optimization (AEO, GEO, LLMO, AI Overviews), see the **ai-seo** skill
 
 ---
@@ -475,6 +501,9 @@ Same format as above
 - Mobile-Friendly Test
 - Schema Validator
 - `tools/audit-tools/broken-links.js` for a site-wide broken link crawl
+- `tools/audit-tools/page-fields.js --url <url>` — zero-dependency, no `npm install` needed: pulls title, meta description/robots, OG/Twitter tags, canonical, hreflang, headings (flagging suspiciously short/numeric ones), image lazy-load method per image, internal/external links, static JSON-LD schema, and word count from one raw-HTML fetch in a single JSON output — the fast first pass before reaching for the Playwright-based tools above
+- `tools/audit-tools/sitemap-check.js --url <url>` — zero-dependency sitemap discovery: reads robots.txt `Sitemap:` declarations plus common fallback paths, validates each candidate (malformed XML, DOCTYPE/XXE risk, wrong root element, oversized text sitemaps), and reports exactly which sitemaps are real vs. declared-but-broken
+- `tools/audit-tools/metadata-check.js` — zero-dependency templated/bulk-generated metadata detector: flags title/description pairs that look machine-generated (description echoes the title verbatim, then tails off into a stock CTA) and rolls that up into a site-wide risk level when run across several pages
 
 > **Note on schema detection:** `web_fetch` strips `<script>` tags (including JSON-LD) and cannot detect JS-injected schema. Use `tools/audit-tools/schema-check.js`, the browser tool, Rich Results Test, or Screaming Frog instead — they render JavaScript and capture dynamically-injected markup. See the Schema Markup Detection Limitation section above.
 

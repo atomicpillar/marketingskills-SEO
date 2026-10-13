@@ -2,7 +2,7 @@
 name: client-audit-report
 description: When the user wants a full audit report or SEO strategy on a prospective client's website to use as a sales tool — pitching a website rebuild and/or an SEO retainer. Use when the user gives a client/prospect website URL and asks for "a full audit," "an audit report," "a free report for a client," "an SEO and website report," "build me an SEO strategy," or wants to show a prospect "why they need a new site," "why they need SEO," or "why they don't rank." Combines technical/on-page SEO (seo-audit), Google Business Profile reputation and full optimization plan (local-seo), Google Search Console findings, Core Web Vitals, and a visual/design gap analysis across the business's FULL claimed service area (not just one city) into ONE document: a detailed internal technical section for the agency, followed by plain-language, on-brand client pages plus an evidence appendix, ready to hand to the business owner as-is. Not for auditing your own site for internal use — for that, use seo-audit directly.
 metadata:
-  version: 1.6.1
+  version: 1.6.2
 ---
 
 # Client Audit Report
@@ -48,8 +48,19 @@ Run all of these. None require an account with the client — everything here
 is either a public fetch, an official API, or a local tool.
 
 **Technical + on-page SEO** — follow `seo-audit`'s framework (crawlability,
-indexation, on-page elements, content quality). Use WebFetch for robots.txt,
-sitemap, and page HTML.
+indexation, on-page elements, content quality). Start with:
+```bash
+node tools/audit-tools/page-fields.js --url <client-url>
+node tools/audit-tools/sitemap-check.js --url <client-url>
+```
+No `npm install` needed for either. `page-fields.js` pulls title, meta
+description/robots, OG tags, canonical, hreflang, headings (flagging
+suspiciously short/numeric ones), per-image lazy-load method, internal/
+external links, static JSON-LD schema, and word count in one call —
+replaces the ad hoc curl/grep one-liners this step used to require.
+`sitemap-check.js` discovers and validates the sitemap(s) via robots.txt
+plus common fallback paths. Fall back to raw WebFetch only for anything
+these two don't cover.
 
 **Rendered checks** (fixes what `seo-audit` flags as invisible to plain fetch):
 ```bash
