@@ -2,6 +2,14 @@
 
 Current versions of all skills. Agents can compare against local versions to check for updates.
 
+`task-observer` is a vendored third-party meta-skill (see AGENTS.md's "Task
+Observer" section) kept unmodified from upstream — its version number
+tracks `github.com/rebelytics/one-skill-to-rule-them-all` releases directly
+rather than this repo's own per-skill versioning scheme, and its
+`SKILL.md` carries `version:` at the frontmatter top level rather than
+nested under `metadata:` like every other skill here, so the automated
+update check above reads it differently from the rest of the table.
+
 | Skill | Version | Last Updated |
 |-------|---------|--------------|
 | ab-testing | 2.0.0 | 2026-05-05 |
@@ -55,9 +63,14 @@ Current versions of all skills. Agents can compare against local versions to che
 | site-architecture | 2.0.0 | 2026-05-05 |
 | sms | 1.0.0 | 2026-05-21 |
 | social | 2.2.0 | 2026-07-09 |
+| task-observer | 3.6.0 | 2026-10-13 |
 | video | 2.1.0 | 2026-07-14 |
 
 ## Recent Changes
+
+### 2.13.0 (2026-10-13)
+
+- Added **task-observer** (3.6.0) — a vendored, unmodified copy of "One Skill to Rule Them All" (github.com/rebelytics/one-skill-to-rule-them-all, CC BY 4.0), a meta-skill that observes work sessions in this repo and turns recurring friction, corrections, and judgement calls into proposed improvements to the other skills (and to itself), logged for human review before anything is installed. Unlike every other skill here, it isn't a marketing skill — see AGENTS.md's new "Task Observer" section for the full rationale, the cross-agent-portability caveat (its core `SKILL.md` bakes in Claude Code/Cowork concepts directly, stated plainly in its own README), and the workspace setup. The workspace (`skill-observations/` — `observation-log/`, `cross-cutting-principles.md`, `last-review-date.txt`) is pinned to this repo's own root via `git rev-parse --show-toplevel` (resolved dynamically, never hardcoded) rather than a user-global path, and is committed to the repo so it persists across the fresh clones this environment does per session — bootstrapped empty and ready in this release. Integrity-verified byte-for-byte against the upstream source (`SKILL.md`, 7 reference files, 5 scripts, license) before committing.
 
 ### 2.12.8 (2026-10-13)
 

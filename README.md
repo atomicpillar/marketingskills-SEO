@@ -119,6 +119,7 @@ See each skill's **Related Skills** section for the full dependency map.
 | [site-architecture](skills/site-architecture/) | When the user wants to plan, map, or restructure their website's page hierarchy, navigation, URL structure, or internal... |
 | [sms](skills/sms/) | When the user wants to plan, build, or optimize SMS or MMS marketing — including welcome flows, abandoned cart texts,... |
 | [social](skills/social/) | When the user wants help creating, scheduling, or optimizing social media content for LinkedIn, Twitter/X, Instagram,... |
+| [task-observer](skills/task-observer/) | Monitors task execution for skill improvement opportunities. Use during ANY multi-step task, agentic workflow, or work... |
 | [video](skills/video/) | When the user wants to create, generate, or produce video content using AI tools or programmatic frameworks. Also use... |
 <!-- SKILLS:END -->
 
@@ -336,6 +337,9 @@ You can also invoke skills directly:
 
 ### Agency & Client Reporting
 - `client-audit-report` - Full website + local SEO audit report for prospective clients, built to sell a website rebuild and SEO engagement
+
+### Meta — Skill Library Maintenance
+- `task-observer` - Watches work sessions and turns recurring friction, corrections, and methodology into proposed improvements to the other skills (and itself), logged for human review. Not a marketing skill — see AGENTS.md
 
 ## Contributing
 

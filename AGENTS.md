@@ -236,6 +236,62 @@ When using any skill from this repository:
 
 See `README.md` for the current list of skills organized by category. When adding new skills, follow the naming patterns of existing skills in that category.
 
+## Task Observer — Self-Improving Skill Library
+
+This repo carries a vendored copy of **task-observer** ("One Skill to Rule
+Them All", github.com/rebelytics/one-skill-to-rule-them-all, CC BY 4.0) at
+`skills/task-observer/`. Unlike every other skill here, it isn't a marketing
+skill — it's a meta-skill that watches work sessions in this repo and turns
+recurring friction, corrections, and judgement calls into proposed
+improvements to the *other* skills (and to itself), logged for human review
+before anything is installed. It is the mechanism by which this skill
+library is meant to keep improving itself from real use, not just from
+deliberate editing sessions like this one.
+
+**Caveat, stated plainly (from its own README):** task-observer's core
+`SKILL.md` is written with Claude Code / Cowork concepts baked in directly
+(CLAUDE.md activation, session-start hooks, `skill-updates/` staging) —
+unlike the rest of this repo's skills, it is not fully cross-agent-portable
+out of the box. It is vendored as-is (unmodified, per its CC BY 4.0 terms
+and its own self-referential upstream-update mechanism) rather than rewritten
+to fit this repo's cross-agent style. If you're running this repo's skills
+from Codex, Cursor, or another non-Claude agent, this one specific skill may
+need local adaptation; the rest of the library is unaffected.
+
+**Workspace — pinned inside this repo, not a user-global path.** This repo
+is checked out fresh per session in some environments (Claude Code on the
+web/cloud), so the usual recommendation (`~/.claude/projects/<id>/`) would
+not survive between sessions here. Instead, the workspace is pinned to this
+repo's own root, resolved dynamically (never hardcoded, since the clone
+path varies by environment):
+
+```bash
+d="$(git rev-parse --show-toplevel)/skill-observations"
+```
+
+This directory is **committed to the repo** (`skill-observations/` at the
+root — `observation-log/`, `cross-cutting-principles.md`,
+`last-review-date.txt`) so it persists across fresh clones and sessions
+exactly the way the rest of this repo does — attach this repo in a new
+session and the observation history comes with it.
+
+**Activation instruction** (tier 3 from `skills/task-observer/references/environments.md`
+— configuration-instruction level; add a harness session-start hook too if
+your environment supports one, for the enforced tier):
+
+> Before the first tool call of any session in this repo — and before
+> writing or proposing a plan — invoke the **task-observer** skill and run
+> its Session Start Protocol, with the workspace resolved as
+> `$(git rev-parse --show-toplevel)/skill-observations`. After completing
+> each task, list the observation records written this session and report
+> a one-line summary. Log-and-defer is the default: observations are
+> proposals for the next review, not an invitation to edit a skill
+> in-session, except for the explicit triggers `skills/task-observer/SKILL.md`
+> names under "Acting on Observations."
+
+See `skills/task-observer/SKILL.md` for the full protocol and
+`skills/task-observer/references/` for everything it loads on demand.
+
 ## Claude Code-Specific Enhancements
 
 These patterns are **Claude Code only** and must not be added to `SKILL.md` files directly, as skills are designed to be cross-agent compatible (Codex, Cursor, Windsurf, etc.). Apply them locally in your own project's `.claude/skills/` overrides instead.
